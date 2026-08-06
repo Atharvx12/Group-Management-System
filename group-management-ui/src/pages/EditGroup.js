@@ -9,10 +9,6 @@ function EditGroup() {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  useEffect(() => {
-    loadGroup();
-  }, []);
-
   const loadGroup = () => {
     groupService
       .getGroups()
@@ -31,6 +27,10 @@ function EditGroup() {
         console.log(error);
       });
   };
+
+  useEffect(() => {
+    loadGroup();
+  }, [id]);
 
   const updateGroup = () => {
 

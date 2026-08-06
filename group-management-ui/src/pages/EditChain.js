@@ -12,11 +12,6 @@ function EditChain() {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  useEffect(() => {
-    loadGroups();
-    loadChain();
-  }, []);
-
   const loadGroups = () => {
     groupService
       .getGroups()
@@ -32,7 +27,6 @@ function EditChain() {
     chainService
       .getChains()
       .then((response) => {
-
         const chain = response.data.find(
           (c) => c.chainId === parseInt(id)
         );
@@ -41,12 +35,16 @@ function EditChain() {
           setChainName(chain.chainName);
           setSelectedGroup(chain.group.groupId);
         }
-
       })
       .catch((error) => {
         console.log(error);
       });
   };
+
+  useEffect(() => {
+    loadGroups();
+    loadChain();
+  }, [id]);
 
   const updateChain = () => {
 
