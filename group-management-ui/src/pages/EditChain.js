@@ -1,10 +1,9 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import chainService from "../services/chainService";
 import groupService from "../services/groupService";
 
 function EditChain() {
-
   const [chainName, setChainName] = useState("");
   const [groups, setGroups] = useState([]);
   const [selectedGroup, setSelectedGroup] = useState("");
@@ -12,7 +11,7 @@ function EditChain() {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const loadGroups = () => {
+  const loadGroups = useCallback(() => {
     groupService
       .getGroups()
       .then((response) => {
@@ -21,9 +20,9 @@ function EditChain() {
       .catch((error) => {
         console.log(error);
       });
-  };
+  }, []);
 
-  const loadChain = () => {
+  const loadChain = useCallback(() => {
     chainService
       .getChains()
       .then((response) => {
@@ -39,20 +38,19 @@ function EditChain() {
       .catch((error) => {
         console.log(error);
       });
-  };
+  }, [id]);
 
   useEffect(() => {
     loadGroups();
     loadChain();
-  }, [id]);
+  }, [loadGroups, loadChain]);
 
   const updateChain = () => {
-
     const chain = {
       chainName: chainName,
       group: {
-        groupId: selectedGroup
-      }
+        groupId: selectedGroup,
+      },
     };
 
     chainService
@@ -64,25 +62,18 @@ function EditChain() {
       .catch((error) => {
         console.log(error);
       });
-
   };
 
   return (
     <div className="container mt-5">
-
       <div className="card">
-
         <div className="card-header bg-warning">
           <h3>Edit Chain</h3>
         </div>
 
         <div className="card-body">
-
           <div className="mb-3">
-
-            <label className="form-label">
-              Chain Name
-            </label>
+            <label className="form-label">Chain Name</label>
 
             <input
               type="text"
@@ -90,21 +81,16 @@ function EditChain() {
               value={chainName}
               onChange={(e) => setChainName(e.target.value)}
             />
-
           </div>
 
           <div className="mb-3">
-
-            <label className="form-label">
-              Select Group
-            </label>
+            <label className="form-label">Select Group</label>
 
             <select
               className="form-select"
               value={selectedGroup}
               onChange={(e) => setSelectedGroup(e.target.value)}
             >
-
               {groups.map((group) => (
                 <option
                   key={group.groupId}
@@ -113,9 +99,7 @@ function EditChain() {
                   {group.groupName}
                 </option>
               ))}
-
             </select>
-
           </div>
 
           <button
@@ -131,11 +115,8 @@ function EditChain() {
           >
             Back
           </button>
-
         </div>
-
       </div>
-
     </div>
   );
 }

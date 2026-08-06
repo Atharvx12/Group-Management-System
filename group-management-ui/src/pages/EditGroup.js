@@ -1,19 +1,17 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import groupService from "../services/groupService";
 
 function EditGroup() {
-
   const [groupName, setGroupName] = useState("");
 
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const loadGroup = () => {
+  const loadGroup = useCallback(() => {
     groupService
       .getGroups()
       .then((response) => {
-
         const group = response.data.find(
           (g) => g.groupId === parseInt(id)
         );
@@ -21,21 +19,19 @@ function EditGroup() {
         if (group) {
           setGroupName(group.groupName);
         }
-
       })
       .catch((error) => {
         console.log(error);
       });
-  };
+  }, [id]);
 
   useEffect(() => {
     loadGroup();
-  }, [id]);
+  }, [loadGroup]);
 
   const updateGroup = () => {
-
     const group = {
-      groupName: groupName
+      groupName: groupName,
     };
 
     groupService
@@ -47,25 +43,18 @@ function EditGroup() {
       .catch((error) => {
         console.log(error);
       });
-
   };
 
   return (
     <div className="container mt-5">
-
       <div className="card">
-
         <div className="card-header bg-warning">
           <h3>Edit Group</h3>
         </div>
 
         <div className="card-body">
-
           <div className="mb-3">
-
-            <label className="form-label">
-              Group Name
-            </label>
+            <label className="form-label">Group Name</label>
 
             <input
               type="text"
@@ -73,7 +62,6 @@ function EditGroup() {
               value={groupName}
               onChange={(e) => setGroupName(e.target.value)}
             />
-
           </div>
 
           <button
@@ -89,11 +77,8 @@ function EditGroup() {
           >
             Back
           </button>
-
         </div>
-
       </div>
-
     </div>
   );
 }
