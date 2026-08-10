@@ -12,11 +12,14 @@ public class Chain {
     @Column(name = "chain_id")
     private Integer chainId;
 
-    @Column(name = "chain_name", unique = true, nullable = false)
-    private String chainName;
+    @Column(name = "company_name", nullable = false)
+    private String companyName;
+
+    @Column(name = "gstn_no", unique = true, nullable = false, length = 15)
+    private String gstnNo;
 
     @ManyToOne
-    @JoinColumn(name = "group_id")
+    @JoinColumn(name = "group_id", nullable = false)
     private Group group;
 
     @Column(name = "is_active")
@@ -39,12 +42,20 @@ public class Chain {
         this.chainId = chainId;
     }
 
-    public String getChainName() {
-        return chainName;
+    public String getCompanyName() {
+        return companyName;
     }
 
-    public void setChainName(String chainName) {
-        this.chainName = chainName;
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public String getGstnNo() {
+        return gstnNo;
+    }
+
+    public void setGstnNo(String gstnNo) {
+        this.gstnNo = gstnNo;
     }
 
     public Group getGroup() {

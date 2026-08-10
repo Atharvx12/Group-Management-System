@@ -1,8 +1,8 @@
-function Header() {
+function Header({ title }) {
   return (
-    <div className="d-flex justify-content-between align-items-center mt-3">
+    <div className="d-flex justify-content-between align-items-center p-3 border-bottom">
 
-      <h2>Manage Group Section</h2>
+      <h2>{title}</h2>
 
       <button className="btn btn-outline-danger">
         Logout

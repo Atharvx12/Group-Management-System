@@ -1,44 +1,48 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 function Sidebar() {
+  const getLinkClass = ({ isActive }) =>
+    `nav-link ${
+      isActive ? "text-warning fw-bold" : "text-white"
+    }`;
+
   return (
     <div
       className="bg-dark text-white p-3"
       style={{ minHeight: "100vh" }}
     >
-      <h4>Invoice</h4>
-      <hr />
+      <h4 className="mb-4">Invoice</h4>
 
       <ul className="nav flex-column">
 
         <li className="nav-item mb-2">
-          <Link to="/" className="nav-link text-white">
+          <NavLink to="/dashboard" className={getLinkClass}>
             Dashboard
-          </Link>
+          </NavLink>
         </li>
 
         <li className="nav-item mb-2">
-          <Link to="/" className="nav-link text-warning fw-bold">
+          <NavLink to="/manage-groups" className={getLinkClass}>
             Manage Groups
-          </Link>
+          </NavLink>
         </li>
 
         <li className="nav-item mb-2">
-          <Link to="/manage-chain" className="nav-link text-white">
+          <NavLink to="/manage-chain" className={getLinkClass}>
             Manage Chain
-          </Link>
+          </NavLink>
         </li>
 
         <li className="nav-item mb-2">
-          <a href="/" className="nav-link text-white">
+          <NavLink to="/manage-branch" className={getLinkClass}>
             Manage Branch
-          </a>
+          </NavLink>
         </li>
 
         <li className="nav-item mb-2">
-          <a href="/" className="nav-link text-white">
+          <NavLink to="/manage-students" className={getLinkClass}>
             Manage Students
-          </a>
+          </NavLink>
         </li>
 
       </ul>

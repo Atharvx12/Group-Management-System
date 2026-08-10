@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "https://group-management-system-production.up.railway.app/chains";
+const API_URL = "http://localhost:8080/chains";
 
 const getChains = () => {
     return axios.get(API_URL);
@@ -22,7 +22,7 @@ const chainService = {
     getChains,
     addChain,
     updateChain,
-    deleteChain,
+    deleteChain
 };
 
 export default chainService;

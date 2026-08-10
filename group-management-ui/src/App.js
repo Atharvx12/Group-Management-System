@@ -1,4 +1,5 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+
 import Dashboard from "./pages/Dashboard";
 import AddGroup from "./pages/AddGroup";
 import EditGroup from "./pages/EditGroup";
@@ -12,14 +13,61 @@ function App() {
 
       <Routes>
 
-        <Route path="/" element={<Dashboard />} />
+        {/* Dashboard */}
+        <Route
+          path="/dashboard"
+          element={<Dashboard />}
+        />
 
-        <Route path="/add-group" element={<AddGroup />} />
-        <Route path="/edit-group/:id" element={<EditGroup />} />
+        {/* Manage Groups */}
+        <Route
+          path="/manage-groups"
+          element={<Dashboard />}
+        />
 
-        <Route path="/manage-chain" element={<ManageChain />} />
-        <Route path="/add-chain" element={<AddChain />} />
-        <Route path="/edit-chain/:id" element={<EditChain />} />
+        {/* Group Routes */}
+        <Route
+          path="/add-group"
+          element={<AddGroup />}
+        />
+
+        <Route
+          path="/edit-group/:id"
+          element={<EditGroup />}
+        />
+
+        {/* Chain Routes */}
+        <Route
+          path="/manage-chain"
+          element={<ManageChain />}
+        />
+
+        <Route
+          path="/add-chain"
+          element={<AddChain />}
+        />
+
+        <Route
+          path="/edit-chain/:id"
+          element={<EditChain />}
+        />
+
+        {/* Temporary routes */}
+        <Route
+          path="/manage-branch"
+          element={<h2>Manage Branch</h2>}
+        />
+
+        <Route
+          path="/manage-students"
+          element={<h2>Manage Students</h2>}
+        />
+
+        {/* Default */}
+        <Route
+          path="/"
+          element={<Navigate to="/manage-groups" replace />}
+        />
 
       </Routes>
 

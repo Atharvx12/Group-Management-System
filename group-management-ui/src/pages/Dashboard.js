@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
 import GroupTable from "../components/GroupTable";
 import groupService from "../services/groupService";
-import "../styles/dashboard.css";
 
 function Dashboard() {
 
@@ -29,20 +29,27 @@ function Dashboard() {
     <div className="container-fluid">
       <div className="row">
 
+        {/* Sidebar */}
         <div className="col-md-2">
           <Sidebar />
         </div>
 
+        {/* Main Content */}
         <div className="col-md-10">
 
-          <Header />
+          <Header title="Manage Group Section" />
 
           <div className="card mt-4">
             <div className="card-body">
 
-              <h3>Total Groups : {groups.length}</h3>
+              <h3>
+                Total Groups : {groups.length}
+              </h3>
 
-              <Link to="/add-group" className="btn btn-success mt-3">
+              <Link
+                to="/add-group"
+                className="btn btn-success mt-3"
+              >
                 Add Group
               </Link>
 
