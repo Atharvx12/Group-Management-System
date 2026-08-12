@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import Sidebar from "../components/Sidebar";
@@ -19,23 +19,12 @@ function EditBrand() {
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
 
-    // =========================
-    // LOAD BRAND AND CHAINS
-    // =========================
-
-    useEffect(() => {
-
-        loadBrand();
-        loadChains();
-
-    }, [id]);
-
 
     // =========================
     // LOAD BRAND
     // =========================
 
-    const loadBrand = () => {
+    const loadBrand = useCallback(() => {
 
         brandService
             .getBrandById(id)
@@ -71,14 +60,14 @@ function EditBrand() {
 
             });
 
-    };
+    }, [id]);
 
 
     // =========================
     // LOAD CHAINS
     // =========================
 
-    const loadChains = () => {
+    const loadChains = useCallback(() => {
 
         chainService
             .getChains()
@@ -98,7 +87,19 @@ function EditBrand() {
 
             });
 
-    };
+    }, []);
+
+
+    // =========================
+    // LOAD BRAND AND CHAINS
+    // =========================
+
+    useEffect(() => {
+
+        loadBrand();
+        loadChains();
+
+    }, [loadBrand, loadChains]);
 
 
     // =========================
@@ -177,6 +178,10 @@ function EditBrand() {
     };
 
 
+    // =========================
+    // LOADING SCREEN
+    // =========================
+
     if (loading) {
 
         return (
@@ -186,7 +191,9 @@ function EditBrand() {
                 <div className="row">
 
                     <div className="col-md-2">
+
                         <Sidebar />
+
                     </div>
 
                     <div className="col-md-10">
@@ -215,6 +222,10 @@ function EditBrand() {
 
     }
 
+
+    // =========================
+    // EDIT BRAND PAGE
+    // =========================
 
     return (
 
@@ -252,7 +263,9 @@ function EditBrand() {
                                 onSubmit={updateBrand}
                             >
 
-                                {/* BRAND NAME */}
+                                {/* =========================
+                                    BRAND NAME
+                                ========================== */}
 
                                 <div className="mb-3">
 
@@ -277,7 +290,9 @@ function EditBrand() {
                                 </div>
 
 
-                                {/* COMPANY */}
+                                {/* =========================
+                                    COMPANY
+                                ========================== */}
 
                                 <div className="mb-3">
 
@@ -298,8 +313,11 @@ function EditBrand() {
                                     >
 
                                         <option value="">
+
                                             Select Company
+
                                         </option>
+
 
                                         {chains.map(
                                             (chain) => (
@@ -327,7 +345,9 @@ function EditBrand() {
                                 </div>
 
 
-                                {/* BUTTONS */}
+                                {/* =========================
+                                    BUTTONS
+                                ========================== */}
 
                                 <button
                                     type="submit"
