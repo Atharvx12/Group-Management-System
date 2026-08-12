@@ -3,9 +3,14 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import AddGroup from "./pages/AddGroup";
 import EditGroup from "./pages/EditGroup";
+
 import ManageChain from "./pages/ManageChain";
 import AddChain from "./pages/AddChain";
 import EditChain from "./pages/EditChain";
+
+import ManageBrand from "./pages/ManageBrand";
+import AddBrand from "./pages/AddBrand";
+import EditBrand from "./pages/EditBrand";
 
 function App() {
   return (
@@ -25,7 +30,10 @@ function App() {
           element={<Dashboard />}
         />
 
-        {/* Group Routes */}
+        {/* =========================
+            GROUP ROUTES
+        ========================== */}
+
         <Route
           path="/add-group"
           element={<AddGroup />}
@@ -36,7 +44,11 @@ function App() {
           element={<EditGroup />}
         />
 
-        {/* Chain Routes */}
+
+        {/* =========================
+            CHAIN ROUTES
+        ========================== */}
+
         <Route
           path="/manage-chain"
           element={<ManageChain />}
@@ -52,6 +64,27 @@ function App() {
           element={<EditChain />}
         />
 
+
+        {/* =========================
+            BRAND ROUTES
+        ========================== */}
+
+        <Route
+          path="/manage-brand"
+          element={<ManageBrand />}
+        />
+
+        <Route
+          path="/add-brand"
+          element={<AddBrand />}
+        />
+
+        <Route
+          path="/edit-brand/:id"
+          element={<EditBrand />}
+        />
+
+
         {/* Temporary routes */}
         <Route
           path="/manage-branch"
@@ -62,6 +95,7 @@ function App() {
           path="/manage-students"
           element={<h2>Manage Students</h2>}
         />
+
 
         {/* Default */}
         <Route

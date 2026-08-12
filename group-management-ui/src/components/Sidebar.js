@@ -34,6 +34,12 @@ function Sidebar() {
         </li>
 
         <li className="nav-item mb-2">
+          <NavLink to="/manage-brand" className={getLinkClass}>
+            Manage Brand
+          </NavLink>
+        </li>
+
+        <li className="nav-item mb-2">
           <NavLink to="/manage-branch" className={getLinkClass}>
             Manage Branch
           </NavLink>
