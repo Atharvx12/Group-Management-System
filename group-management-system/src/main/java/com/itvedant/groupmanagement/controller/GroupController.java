@@ -9,6 +9,17 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/groups")
+@CrossOrigin(
+        origins = "https://zippy-puppy-d1a517.netlify.app",
+        allowedHeaders = "*",
+        methods = {
+                RequestMethod.GET,
+                RequestMethod.POST,
+                RequestMethod.PUT,
+                RequestMethod.DELETE,
+                RequestMethod.OPTIONS
+        }
+)
 public class GroupController {
 
     @Autowired
@@ -25,8 +36,10 @@ public class GroupController {
     }
 
     @PutMapping("/{id}")
-    public Group updateGroup(@PathVariable Integer id,
-                             @RequestBody Group group) {
+    public Group updateGroup(
+            @PathVariable Integer id,
+            @RequestBody Group group
+    ) {
         return groupService.updateGroup(id, group);
     }
 
