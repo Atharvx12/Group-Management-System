@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8080/zones";
+const API_URL =
+    "https://group-management-system-production.up.railway.app/zones";
 
 const getZones = () => {
     return axios.get(API_URL);
