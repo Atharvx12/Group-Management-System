@@ -12,23 +12,30 @@ import ManageBrand from "./pages/ManageBrand";
 import AddBrand from "./pages/AddBrand";
 import EditBrand from "./pages/EditBrand";
 
+import ManageZone from "./pages/ManageZone";
+import AddZone from "./pages/AddZone";
+import EditZone from "./pages/EditZone";
+
 function App() {
   return (
     <BrowserRouter>
 
       <Routes>
 
-        {/* Dashboard */}
+        {/* =========================
+            DASHBOARD
+        ========================== */}
+
         <Route
           path="/dashboard"
           element={<Dashboard />}
         />
 
-        {/* Manage Groups */}
         <Route
           path="/manage-groups"
           element={<Dashboard />}
         />
+
 
         {/* =========================
             GROUP ROUTES
@@ -85,7 +92,30 @@ function App() {
         />
 
 
-        {/* Temporary routes */}
+        {/* =========================
+            ZONE ROUTES
+        ========================== */}
+
+        <Route
+          path="/manage-zone"
+          element={<ManageZone />}
+        />
+
+        <Route
+          path="/add-zone"
+          element={<AddZone />}
+        />
+
+        <Route
+          path="/edit-zone/:id"
+          element={<EditZone />}
+        />
+
+
+        {/* =========================
+            TEMPORARY ROUTES
+        ========================== */}
+
         <Route
           path="/manage-branch"
           element={<h2>Manage Branch</h2>}
@@ -97,7 +127,10 @@ function App() {
         />
 
 
-        {/* Default */}
+        {/* =========================
+            DEFAULT ROUTE
+        ========================== */}
+
         <Route
           path="/"
           element={<Navigate to="/manage-groups" replace />}

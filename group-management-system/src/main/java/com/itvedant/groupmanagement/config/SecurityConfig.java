@@ -18,8 +18,13 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
+                // Disable CSRF because this is a REST API
                 .csrf(csrf -> csrf.disable())
+
+                // Enable CORS
                 .cors(Customizer.withDefaults())
+
+                // Allow API requests
                 .authorizeHttpRequests(auth -> auth
                         .anyRequest().permitAll()
                 );
@@ -32,9 +37,25 @@ public class SecurityConfig {
 
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowedOrigins(List.of("http://localhost:3000"));
-        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
+        // Allow both local development and deployed Netlify frontend
+        configuration.setAllowedOrigins(List.of(
+                "http://localhost:3000",
+                "https://zippy-puppy-d1a517.netlify.app"
+        ));
+
+        // Allow all required HTTP methods
+        configuration.setAllowedMethods(List.of(
+                "GET",
+                "POST",
+                "PUT",
+                "DELETE",
+                "OPTIONS"
+        ));
+
+        // Allow all headers
         configuration.setAllowedHeaders(List.of("*"));
+
+        // Allow credentials
         configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source =

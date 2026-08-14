@@ -1,54 +1,55 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import brandService from "../services/brandService";
-import chainService from "../services/chainService";
+import Sidebar from "../components/Sidebar";
+import Header from "../components/Header";
 
-function AddBrand() {
+import zoneService from "../services/zoneService";
+import brandService from "../services/brandService";
+
+function AddZone() {
 
     const navigate = useNavigate();
 
-    const [brandName, setBrandName] = useState("");
-    const [chainId, setChainId] = useState("");
-    const [chains, setChains] = useState([]);
+    const [zoneName, setZoneName] = useState("");
+    const [brandId, setBrandId] = useState("");
+    const [brands, setBrands] = useState([]);
 
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
 
 
     // =========================
-    // LOAD COMPANIES
+    // LOAD BRANDS
     // =========================
 
     useEffect(() => {
 
-        chainService
-            .getChains()
+        brandService
+            .getBrands()
 
             .then((response) => {
 
                 console.log(
-                    "CHAINS RECEIVED:",
+                    "BRANDS RECEIVED:",
                     response.data
                 );
 
-                setChains(response.data);
+                setBrands(response.data);
                 setLoading(false);
 
             })
 
             .catch((error) => {
 
-                console.error(
-                    "ERROR LOADING CHAINS:",
+                console.log(
+                    "Error loading brands:",
                     error
                 );
 
-                setLoading(false);
+                alert("Unable to load brands");
 
-                alert(
-                    "Unable to load companies"
-                );
+                setLoading(false);
 
             });
 
@@ -56,50 +57,44 @@ function AddBrand() {
 
 
     // =========================
-    // SAVE BRAND
+    // SAVE ZONE
     // =========================
 
-    const saveBrand = async (e) => {
+    const saveZone = async (e) => {
 
         e.preventDefault();
 
 
-        if (!brandName.trim()) {
+        if (!zoneName.trim()) {
 
-            alert(
-                "Please enter brand name"
-            );
-
+            alert("Please enter zone name");
             return;
 
         }
 
 
-        if (!chainId) {
+        if (!brandId) {
 
-            alert(
-                "Please select a company"
-            );
-
+            alert("Please select a brand");
             return;
 
         }
 
 
-        const brandData = {
+        const zoneData = {
 
-            brandName: brandName.trim(),
+            zoneName: zoneName.trim(),
 
-            chain: {
-                chainId: Number(chainId)
+            brand: {
+                brandId: Number(brandId)
             }
 
         };
 
 
         console.log(
-            "BRAND DATA:",
-            brandData
+            "ZONE DATA:",
+            zoneData
         );
 
 
@@ -107,36 +102,32 @@ function AddBrand() {
 
             setSaving(true);
 
-            await brandService.addBrand(
-                brandData
-            );
+            await zoneService.addZone(zoneData);
 
             alert(
-                "Brand Added Successfully"
+                "Zone Added Successfully"
             );
 
-            navigate(
-                "/manage-brand"
-            );
+            navigate("/manage-zone");
 
         } catch (error) {
 
-            console.error(
-                "ERROR ADDING BRAND:",
+            console.log(
+                "Error adding zone:",
                 error
             );
 
             if (error.response) {
 
                 console.log(
-                    "BACKEND ERROR:",
+                    "Backend error:",
                     error.response.data
                 );
 
             }
 
             alert(
-                "Failed to add brand"
+                "Failed to add zone"
             );
 
         } finally {
@@ -158,28 +149,35 @@ function AddBrand() {
 
             <div className="row">
 
-                {/* SIDEBAR */}
+                {/* =========================
+                    SIDEBAR
+                ========================== */}
 
                 <div className="col-md-2">
 
-                    <div className="sticky-top">
-                        {/* Existing sidebar will be loaded here if needed */}
-                    </div>
+                    <Sidebar />
 
                 </div>
 
 
-                {/* MAIN CONTENT */}
+                {/* =========================
+                    MAIN CONTENT
+                ========================== */}
 
                 <div className="col-md-10">
+
+                    <Header
+                        title="Add Zone Section"
+                    />
+
 
                     <div className="card mt-4">
 
                         <div className="card-header bg-primary text-white">
 
-                            <h2>
-                                Add New Brand
-                            </h2>
+                            <h4 className="mb-0">
+                                Add New Zone
+                            </h4>
 
                         </div>
 
@@ -187,26 +185,28 @@ function AddBrand() {
                         <div className="card-body">
 
                             <form
-                                onSubmit={saveBrand}
+                                onSubmit={saveZone}
                             >
 
-                                {/* BRAND NAME */}
+                                {/* =========================
+                                    ZONE NAME
+                                ========================== */}
 
                                 <div className="mb-3">
 
                                     <label className="form-label">
 
-                                        Brand Name
+                                        Zone Name
 
                                     </label>
 
                                     <input
                                         type="text"
                                         className="form-control"
-                                        placeholder="Enter Brand Name"
-                                        value={brandName}
+                                        placeholder="Enter Zone Name"
+                                        value={zoneName}
                                         onChange={(e) =>
-                                            setBrandName(
+                                            setZoneName(
                                                 e.target.value
                                             )
                                         }
@@ -215,21 +215,23 @@ function AddBrand() {
                                 </div>
 
 
-                                {/* COMPANY */}
+                                {/* =========================
+                                    BRAND
+                                ========================== */}
 
                                 <div className="mb-3">
 
                                     <label className="form-label">
 
-                                        Select Company
+                                        Select Brand
 
                                     </label>
 
                                     <select
                                         className="form-select"
-                                        value={chainId}
+                                        value={brandId}
                                         onChange={(e) =>
-                                            setChainId(
+                                            setBrandId(
                                                 e.target.value
                                             )
                                         }
@@ -239,26 +241,26 @@ function AddBrand() {
                                         <option value="">
 
                                             {loading
-                                                ? "Loading Companies..."
-                                                : "Select Company"}
+                                                ? "Loading Brands..."
+                                                : "Select Brand"}
 
                                         </option>
 
 
-                                        {chains.map(
-                                            (chain) => (
+                                        {brands.map(
+                                            (brand) => (
 
                                                 <option
                                                     key={
-                                                        chain.chainId
+                                                        brand.brandId
                                                     }
                                                     value={
-                                                        chain.chainId
+                                                        brand.brandId
                                                     }
                                                 >
 
                                                     {
-                                                        chain.companyName
+                                                        brand.brandName
                                                     }
 
                                                 </option>
@@ -271,7 +273,9 @@ function AddBrand() {
                                 </div>
 
 
-                                {/* BUTTONS */}
+                                {/* =========================
+                                    BUTTONS
+                                ========================== */}
 
                                 <button
                                     type="submit"
@@ -283,7 +287,7 @@ function AddBrand() {
 
                                     {saving
                                         ? "Saving..."
-                                        : "Save Brand"}
+                                        : "Save Zone"}
 
                                 </button>
 
@@ -293,7 +297,7 @@ function AddBrand() {
                                     className="btn btn-secondary"
                                     onClick={() =>
                                         navigate(
-                                            "/manage-brand"
+                                            "/manage-zone"
                                         )
                                     }
                                 >
@@ -318,4 +322,4 @@ function AddBrand() {
 
 }
 
-export default AddBrand;
+export default AddZone;

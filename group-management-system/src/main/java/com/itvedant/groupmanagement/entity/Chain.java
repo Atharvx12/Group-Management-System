@@ -12,6 +12,9 @@ public class Chain {
     @Column(name = "chain_id")
     private Integer chainId;
 
+    @Column(name = "chain_name", nullable = false, unique = true, length = 255)
+    private String chainName;
+
     @Column(name = "company_name", nullable = false)
     private String companyName;
 
@@ -40,6 +43,14 @@ public class Chain {
 
     public void setChainId(Integer chainId) {
         this.chainId = chainId;
+    }
+
+    public String getChainName() {
+        return chainName;
+    }
+
+    public void setChainName(String chainName) {
+        this.chainName = chainName;
     }
 
     public String getCompanyName() {
