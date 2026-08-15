@@ -105,6 +105,20 @@ function Sidebar() {
         </li>
 
 
+        {/* Estimate */}
+
+        <li className="nav-item mb-2">
+
+          <NavLink
+            to="/manage-estimate"
+            className={getLinkClass}
+          >
+            💰 Manage Estimate
+          </NavLink>
+
+        </li>
+
+
         {/* Branch */}
 
         <li className="nav-item mb-2">

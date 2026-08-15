@@ -8,11 +8,13 @@ public interface ChainService {
 
     List<Chain> getAllChains();
 
-    Chain getChainById(Integer id);
+    Chain getChainById(Integer chainId);
 
     Chain addChain(Chain chain);
 
-    Chain updateChain(Integer id, Chain chain);
+    Chain updateChain(Integer chainId, Chain chain);
 
-    void deleteChain(Integer id);
+    boolean deleteChain(Integer chainId);
+
+    List<Chain> getChainsByGroup(Integer groupId);
 }

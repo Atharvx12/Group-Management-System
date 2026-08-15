@@ -1,23 +1,49 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
+// =========================
+// DASHBOARD
+// =========================
 import Dashboard from "./pages/Dashboard";
+
+// =========================
+// GROUP
+// =========================
 import AddGroup from "./pages/AddGroup";
 import EditGroup from "./pages/EditGroup";
 
+// =========================
+// CHAIN
+// =========================
 import ManageChain from "./pages/ManageChain";
 import AddChain from "./pages/AddChain";
 import EditChain from "./pages/EditChain";
 
+// =========================
+// BRAND
+// =========================
 import ManageBrand from "./pages/ManageBrand";
 import AddBrand from "./pages/AddBrand";
 import EditBrand from "./pages/EditBrand";
 
+// =========================
+// ZONE
+// =========================
 import ManageZone from "./pages/ManageZone";
 import AddZone from "./pages/AddZone";
 import EditZone from "./pages/EditZone";
 
+// =========================
+// ESTIMATE
+// =========================
+import ManageEstimate from "./pages/ManageEstimate";
+import AddEstimate from "./pages/AddEstimate";
+import EditEstimate from "./pages/EditEstimate";
+
+
 function App() {
+
   return (
+
     <BrowserRouter>
 
       <Routes>
@@ -113,17 +139,41 @@ function App() {
 
 
         {/* =========================
+            ESTIMATE ROUTES
+        ========================== */}
+
+        <Route
+          path="/manage-estimate"
+          element={<ManageEstimate />}
+        />
+
+        <Route
+          path="/add-estimate"
+          element={<AddEstimate />}
+        />
+
+        <Route
+          path="/edit-estimate/:id"
+          element={<EditEstimate />}
+        />
+
+
+        {/* =========================
             TEMPORARY ROUTES
         ========================== */}
 
         <Route
           path="/manage-branch"
-          element={<h2>Manage Branch</h2>}
+          element={
+            <h2>Manage Branch</h2>
+          }
         />
 
         <Route
           path="/manage-students"
-          element={<h2>Manage Students</h2>}
+          element={
+            <h2>Manage Students</h2>
+          }
         />
 
 
@@ -133,13 +183,35 @@ function App() {
 
         <Route
           path="/"
-          element={<Navigate to="/manage-groups" replace />}
+          element={
+            <Navigate
+              to="/manage-groups"
+              replace
+            />
+          }
+        />
+
+
+        {/* =========================
+            FALLBACK ROUTE
+        ========================== */}
+
+        <Route
+          path="*"
+          element={
+            <Navigate
+              to="/manage-groups"
+              replace
+            />
+          }
         />
 
       </Routes>
 
     </BrowserRouter>
+
   );
+
 }
 
 export default App;

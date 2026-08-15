@@ -18,15 +18,38 @@ public class ChainController {
         this.chainService = chainService;
     }
 
-    // Get all active chains
+
+    // ==========================================
+    // GET ALL ACTIVE CHAINS
+    // ==========================================
+
     @GetMapping
     public ResponseEntity<List<Chain>> getAllChains() {
+
         return ResponseEntity.ok(
                 chainService.getAllChains()
         );
     }
 
-    // Get chain by ID
+
+    // ==========================================
+    // GET CHAINS BY GROUP
+    // ==========================================
+
+    @GetMapping("/group/{groupId}")
+    public ResponseEntity<List<Chain>> getChainsByGroup(
+            @PathVariable Integer groupId) {
+
+        return ResponseEntity.ok(
+                chainService.getChainsByGroup(groupId)
+        );
+    }
+
+
+    // ==========================================
+    // GET CHAIN BY ID
+    // ==========================================
+
     @GetMapping("/{id}")
     public ResponseEntity<Chain> getChainById(
             @PathVariable Integer id) {
@@ -36,7 +59,11 @@ public class ChainController {
         );
     }
 
-    // Add new chain/company
+
+    // ==========================================
+    // ADD CHAIN
+    // ==========================================
+
     @PostMapping
     public ResponseEntity<Chain> addChain(
             @RequestBody Chain chain) {
@@ -46,7 +73,11 @@ public class ChainController {
         );
     }
 
-    // Update chain/company
+
+    // ==========================================
+    // UPDATE CHAIN
+    // ==========================================
+
     @PutMapping("/{id}")
     public ResponseEntity<Chain> updateChain(
             @PathVariable Integer id,
@@ -57,7 +88,11 @@ public class ChainController {
         );
     }
 
-    // Soft delete chain/company
+
+    // ==========================================
+    // DELETE CHAIN
+    // ==========================================
+
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteChain(
             @PathVariable Integer id) {
