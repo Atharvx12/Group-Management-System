@@ -52,6 +52,7 @@ function ManageEstimate() {
             });
     };
 
+
     const deleteEstimate = async (id) => {
 
         const confirmDelete = window.confirm(
@@ -84,6 +85,15 @@ function ManageEstimate() {
             );
         }
     };
+
+
+    const generateInvoice = (estimatedId) => {
+
+        navigate(
+            `/create-invoice/${estimatedId}`
+        );
+    };
+
 
     return (
 
@@ -290,7 +300,7 @@ function ManageEstimate() {
 
 
                                                             <button
-                                                                className="btn btn-danger btn-sm"
+                                                                className="btn btn-danger btn-sm me-2"
                                                                 onClick={() =>
                                                                     deleteEstimate(
                                                                         estimate.estimatedId
@@ -298,6 +308,18 @@ function ManageEstimate() {
                                                                 }
                                                             >
                                                                 Delete
+                                                            </button>
+
+
+                                                            <button
+                                                                className="btn btn-success btn-sm"
+                                                                onClick={() =>
+                                                                    generateInvoice(
+                                                                        estimate.estimatedId
+                                                                    )
+                                                                }
+                                                            >
+                                                                Generate Invoice
                                                             </button>
 
                                                         </td>
@@ -324,7 +346,6 @@ function ManageEstimate() {
             </div>
 
         </div>
-
     );
 }
 

@@ -119,6 +119,20 @@ function Sidebar() {
         </li>
 
 
+        {/* Invoice */}
+
+        <li className="nav-item mb-2">
+
+          <NavLink
+            to="/manage-invoice"
+            className={getLinkClass}
+          >
+            🧾 Manage Invoice
+          </NavLink>
+
+        </li>
+
+
         {/* Branch */}
 
         <li className="nav-item mb-2">

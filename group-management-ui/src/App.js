@@ -39,6 +39,13 @@ import ManageEstimate from "./pages/ManageEstimate";
 import AddEstimate from "./pages/AddEstimate";
 import EditEstimate from "./pages/EditEstimate";
 
+// =========================
+// INVOICE
+// =========================
+import ManageInvoice from "./pages/ManageInvoice";
+import CreateInvoice from "./pages/CreateInvoice";
+import EditInvoice from "./pages/EditInvoice";
+
 
 function App() {
 
@@ -155,6 +162,26 @@ function App() {
         <Route
           path="/edit-estimate/:id"
           element={<EditEstimate />}
+        />
+
+
+        {/* =========================
+            INVOICE ROUTES
+        ========================== */}
+
+        <Route
+          path="/manage-invoice"
+          element={<ManageInvoice />}
+        />
+
+        <Route
+          path="/create-invoice/:estimatedId"
+          element={<CreateInvoice />}
+        />
+
+        <Route
+          path="/edit-invoice/:id"
+          element={<EditInvoice />}
         />
 
 
