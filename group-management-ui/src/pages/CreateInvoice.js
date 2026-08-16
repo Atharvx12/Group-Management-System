@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+
 import estimateService from "../services/estimateService";
 import invoiceService from "../services/invoiceService";
 
@@ -17,6 +18,7 @@ const CreateInvoice = () => {
     const [saving, setSaving] = useState(false);
 
     const [error, setError] = useState("");
+
 
     // ==========================================
     // LOAD ESTIMATE
@@ -67,7 +69,7 @@ const CreateInvoice = () => {
     // ==========================================
 
     const amountPayable =
-        estimate?.totalCost || 0;
+        Number(estimate?.totalCost || 0);
 
     const balance =
         Math.max(
@@ -75,6 +77,46 @@ const CreateInvoice = () => {
             amountPayable -
                 (Number(amountPaid) || 0)
         );
+
+
+    // ==========================================
+    // DOWNLOAD PDF
+    // ==========================================
+
+    const downloadInvoicePdf = async (invoiceId) => {
+
+        const response =
+            await invoiceService.generateInvoicePdf(
+                invoiceId
+            );
+
+        const blob =
+            new Blob(
+                [response.data],
+                {
+                    type: "application/pdf"
+                }
+            );
+
+        const url =
+            window.URL.createObjectURL(blob);
+
+        const link =
+            document.createElement("a");
+
+        link.href = url;
+
+        link.download =
+            `Invoice-${invoiceId}.pdf`;
+
+        document.body.appendChild(link);
+
+        link.click();
+
+        link.remove();
+
+        window.URL.revokeObjectURL(url);
+    };
 
 
     // ==========================================
@@ -130,6 +172,10 @@ const CreateInvoice = () => {
 
             setSaving(true);
 
+            // ======================================
+            // CREATE INVOICE
+            // ======================================
+
             const invoice = {
 
                 amountPaid: paid,
@@ -146,12 +192,38 @@ const CreateInvoice = () => {
             const createdInvoice =
                 response.data;
 
+            const invoiceId =
+                createdInvoice.id;
+
+
+            // ======================================
+            // DOWNLOAD PDF
+            // ======================================
+
+            await downloadInvoicePdf(
+                invoiceId
+            );
+
+
+            // ======================================
+            // SEND PDF BY EMAIL
+            // ======================================
+
+            await invoiceService.sendInvoiceEmail(
+                invoiceId
+            );
+
+
+            // ======================================
+            // SUCCESS
+            // ======================================
+
             alert(
-                `Invoice ${createdInvoice.invoiceNo} generated successfully.`
+                `Invoice ${createdInvoice.invoiceNo} generated successfully.\n\nPDF downloaded and invoice emailed to ${emailId.trim()}.`
             );
 
             navigate(
-                `/edit-invoice/${createdInvoice.id}`
+                `/edit-invoice/${invoiceId}`
             );
 
         } catch (err) {
@@ -164,6 +236,7 @@ const CreateInvoice = () => {
             const message =
                 err?.response?.data?.message ||
                 err?.response?.data ||
+                err?.message ||
                 "Failed to generate invoice.";
 
             setError(message);
@@ -182,6 +255,7 @@ const CreateInvoice = () => {
     if (loading) {
 
         return (
+
             <div
                 style={{
                     padding: "30px",
@@ -190,6 +264,7 @@ const CreateInvoice = () => {
             >
                 Loading estimate...
             </div>
+
         );
     }
 
@@ -201,7 +276,12 @@ const CreateInvoice = () => {
     if (!estimate) {
 
         return (
-            <div style={{ padding: "30px" }}>
+
+            <div
+                style={{
+                    padding: "30px"
+                }}
+            >
 
                 <h2>
                     Create Invoice
@@ -218,13 +298,16 @@ const CreateInvoice = () => {
 
                 <button
                     onClick={() =>
-                        navigate("/manage-estimates")
+                        navigate(
+                            "/manage-estimate"
+                        )
                     }
                 >
                     Back to Estimates
                 </button>
 
             </div>
+
         );
     }
 
@@ -274,6 +357,7 @@ const CreateInvoice = () => {
                     handleGenerateInvoice
                 }
             >
+
 
                 {/* ==================================
                     ESTIMATE ID
@@ -733,9 +817,11 @@ const CreateInvoice = () => {
                                     : "pointer"
                         }}
                     >
+
                         {saving
                             ? "Generating..."
                             : "Generate Invoice"}
+
                     </button>
 
 
@@ -743,7 +829,7 @@ const CreateInvoice = () => {
                         type="button"
                         onClick={() =>
                             navigate(
-                                "/manage-estimates"
+                                "/manage-estimate"
                             )
                         }
                         disabled={saving}

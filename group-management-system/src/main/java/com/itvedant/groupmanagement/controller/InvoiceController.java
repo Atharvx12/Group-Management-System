@@ -1,11 +1,14 @@
 package com.itvedant.groupmanagement.controller;
 
 import com.itvedant.groupmanagement.entity.Invoice;
+import com.itvedant.groupmanagement.service.InvoiceEmailService;
 import com.itvedant.groupmanagement.service.InvoiceService;
+
 import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,9 +20,20 @@ public class InvoiceController {
 
     private final InvoiceService invoiceService;
 
-    public InvoiceController(InvoiceService invoiceService) {
-        this.invoiceService = invoiceService;
+    private final InvoiceEmailService invoiceEmailService;
+
+
+    public InvoiceController(
+            InvoiceService invoiceService,
+            InvoiceEmailService invoiceEmailService) {
+
+        this.invoiceService =
+                invoiceService;
+
+        this.invoiceEmailService =
+                invoiceEmailService;
     }
+
 
     // ==========================================
     // GET ALL INVOICES
@@ -33,6 +47,7 @@ public class InvoiceController {
         );
     }
 
+
     // ==========================================
     // GET INVOICE BY ID
     // ==========================================
@@ -45,6 +60,7 @@ public class InvoiceController {
                 invoiceService.getInvoiceById(id)
         );
     }
+
 
     // ==========================================
     // GET INVOICE BY INVOICE NUMBER
@@ -61,6 +77,7 @@ public class InvoiceController {
         );
     }
 
+
     // ==========================================
     // GET INVOICE BY ESTIMATE ID
     // ==========================================
@@ -75,6 +92,7 @@ public class InvoiceController {
                 )
         );
     }
+
 
     // ==========================================
     // CREATE INVOICE FROM ESTIMATE
@@ -93,6 +111,7 @@ public class InvoiceController {
         );
     }
 
+
     // ==========================================
     // UPDATE INVOICE
     // ==========================================
@@ -110,6 +129,7 @@ public class InvoiceController {
         );
     }
 
+
     // ==========================================
     // DELETE INVOICE
     // ==========================================
@@ -125,12 +145,14 @@ public class InvoiceController {
         );
     }
 
+
     // ==========================================
     // SEARCH INVOICES
     // ==========================================
 
     @GetMapping("/search")
     public ResponseEntity<List<Invoice>> searchInvoices(
+
             @RequestParam(required = false)
             String invoiceNo,
 
@@ -152,6 +174,7 @@ public class InvoiceController {
                 )
         );
     }
+
 
     // ==========================================
     // GENERATE / DOWNLOAD PDF
@@ -194,4 +217,21 @@ public class InvoiceController {
                 .headers(headers)
                 .body(pdf);
     }
+
+
+    // ==========================================
+    // SEND INVOICE BY EMAIL
+    // ==========================================
+
+    @PostMapping("/{id}/email")
+    public ResponseEntity<String> sendInvoiceEmail(
+            @PathVariable Integer id) {
+
+        invoiceEmailService.sendInvoiceEmail(id);
+
+        return ResponseEntity.ok(
+                "Invoice email sent successfully"
+        );
+    }
+
 }

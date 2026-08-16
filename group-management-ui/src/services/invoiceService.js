@@ -3,50 +3,92 @@ import axios from "axios";
 const API_URL =
     "https://group-management-system-production.up.railway.app/invoices";
 
-// Get all invoices
+
+// ==========================================
+// GET ALL INVOICES
+// ==========================================
+
 const getInvoices = () => {
     return axios.get(API_URL);
 };
 
-// Get invoice by ID
+
+// ==========================================
+// GET INVOICE BY ID
+// ==========================================
+
 const getInvoiceById = (id) => {
     return axios.get(`${API_URL}/${id}`);
 };
 
-// Get invoice by invoice number
+
+// ==========================================
+// GET INVOICE BY INVOICE NUMBER
+// ==========================================
+
 const getInvoiceByInvoiceNo = (invoiceNo) => {
-    return axios.get(`${API_URL}/number/${invoiceNo}`);
+    return axios.get(
+        `${API_URL}/number/${invoiceNo}`
+    );
 };
 
-// Get invoice by estimate ID
+
+// ==========================================
+// GET INVOICE BY ESTIMATE ID
+// ==========================================
+
 const getInvoiceByEstimateId = (estimatedId) => {
-    return axios.get(`${API_URL}/estimate/${estimatedId}`);
+    return axios.get(
+        `${API_URL}/estimate/${estimatedId}`
+    );
 };
 
-// Create invoice from estimate
-const createInvoice = (estimatedId, invoice) => {
+
+// ==========================================
+// CREATE INVOICE FROM ESTIMATE
+// ==========================================
+
+const createInvoice = (
+    estimatedId,
+    invoice
+) => {
     return axios.post(
         `${API_URL}/estimate/${estimatedId}`,
         invoice
     );
 };
 
-// Update invoice
-const updateInvoice = (id, invoice) => {
+
+// ==========================================
+// UPDATE INVOICE
+// ==========================================
+
+const updateInvoice = (
+    id,
+    invoice
+) => {
     return axios.put(
         `${API_URL}/${id}`,
         invoice
     );
 };
 
-// Delete invoice
+
+// ==========================================
+// DELETE INVOICE
+// ==========================================
+
 const deleteInvoice = (id) => {
     return axios.delete(
         `${API_URL}/${id}`
     );
 };
 
-// Search invoices
+
+// ==========================================
+// SEARCH INVOICES
+// ==========================================
+
 const searchInvoices = ({
     invoiceNo,
     estimatedId,
@@ -74,11 +116,17 @@ const searchInvoices = ({
 
     return axios.get(
         `${API_URL}/search`,
-        { params }
+        {
+            params
+        }
     );
 };
 
-// Generate invoice PDF
+
+// ==========================================
+// GENERATE INVOICE PDF
+// ==========================================
+
 const generateInvoicePdf = (id) => {
     return axios.get(
         `${API_URL}/${id}/pdf`,
@@ -88,16 +136,44 @@ const generateInvoicePdf = (id) => {
     );
 };
 
+
+// ==========================================
+// SEND INVOICE EMAIL
+// ==========================================
+
+const sendInvoiceEmail = (id) => {
+    return axios.post(
+        `${API_URL}/${id}/email`
+    );
+};
+
+
+// ==========================================
+// EXPORT
+// ==========================================
+
 const invoiceService = {
+
     getInvoices,
+
     getInvoiceById,
+
     getInvoiceByInvoiceNo,
+
     getInvoiceByEstimateId,
+
     createInvoice,
+
     updateInvoice,
+
     deleteInvoice,
+
     searchInvoices,
-    generateInvoicePdf
+
+    generateInvoicePdf,
+
+    sendInvoiceEmail
+
 };
 
 export default invoiceService;
