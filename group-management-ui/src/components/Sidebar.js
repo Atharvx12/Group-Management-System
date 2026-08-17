@@ -132,34 +132,6 @@ function Sidebar() {
 
         </li>
 
-
-        {/* Branch */}
-
-        <li className="nav-item mb-2">
-
-          <NavLink
-            to="/manage-branch"
-            className={getLinkClass}
-          >
-            🏬 Manage Branch
-          </NavLink>
-
-        </li>
-
-
-        {/* Students */}
-
-        <li className="nav-item mb-2">
-
-          <NavLink
-            to="/manage-students"
-            className={getLinkClass}
-          >
-            🎓 Manage Students
-          </NavLink>
-
-        </li>
-
       </ul>
 
     </div>

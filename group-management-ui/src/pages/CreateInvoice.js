@@ -233,13 +233,17 @@ const CreateInvoice = () => {
                 err
             );
 
-            const message =
-                err?.response?.data?.message ||
-                err?.response?.data ||
-                err?.message ||
-                "Failed to generate invoice.";
+            const data = err?.response?.data;
 
-            setError(message);
+const message =
+    data?.message ||
+    data?.error ||
+    (typeof data === "string"
+        ? data
+        : err?.message) ||
+    "Failed to generate invoice.";
+
+setError(message);
 
         } finally {
 
